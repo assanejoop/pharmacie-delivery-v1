@@ -1,0 +1,213 @@
+<div class="min-h-screen flex">
+    <!-- Left side - Hero section -->
+    <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-teal-400 to-teal-600 relative overflow-hidden">
+      <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+      
+      <!-- Background image with overlay -->
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20" 
+           style="background-image: url('assets/images/imgpharma.jpg');">
+      </div>
+      
+      <!-- Content overlay -->
+      <div class="relative z-10 flex flex-col justify-center items-center p-12 text-white w-full">
+        <div class="w-full max-w-2xl text-center">
+          <h1 class="text-4xl xl:text-5xl font-bold mb-6 leading-tight">
+            Pharmacy Delivery
+          </h1>
+          
+          <p class="text-lg xl:text-xl mb-8 leading-relaxed opacity-90 mx-auto">
+            Livraison de médicaments sécurisée et rapide pour les professionnels de santé
+          </p>
+          
+          <!-- Stats cards -->
+          <div class="flex flex-wrap justify-center gap-4 w-full max-w-lg mx-auto">
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 flex-1 min-w-[120px] text-center">
+              <div class="text-2xl xl:text-3xl font-bold mb-1">100+</div>
+              <div class="text-sm opacity-90">Pharmacies</div>
+            </div>
+            
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 flex-1 min-w-[120px] text-center">
+              <div class="text-2xl xl:text-3xl font-bold mb-1">500+</div>
+              <div class="text-sm opacity-90">Livraisons</div>
+            </div>
+            
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 flex-1 min-w-[120px] text-center">
+              <div class="text-2xl xl:text-3xl font-bold mb-1">50+</div>
+              <div class="text-sm opacity-90">Médecins</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right side - Login form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-8 lg:p-12 bg-gray-50">
+      <div class="w-full max-w-md">
+        <!-- Logo and header -->
+        <div class="text-center mb-8">
+          <!-- Logo -->
+          <div class="flex justify-center mb-6">
+            <div class="flex items-center space-x-1">
+             <img src="assets/images/logo.png" alt="" srcset="" class="w-[60px] h-[60px]">
+              
+            </div>
+          </div>
+          
+          <div class="text-sm  text-[#2C7BE5] uppercase mb-2 font-semibold text-[18px] leading-[100%] tracking-[0] text-center font-work">
+            PHARMACIE DELIVERY
+          </div>
+          
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+            Connexion
+          </h2>
+          
+          <p class="text-gray-600">
+            Accédez à votre espace personnel
+          </p>
+        </div>
+        
+        <!-- Login Form -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+          <!-- Username field -->
+          <div>
+            <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+              Nom d'utilisateur
+            </label>
+            <input
+              id="username"
+              type="text"
+              formControlName="username"
+              placeholder="Email ou téléphone"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors bg-white text-gray-900 placeholder-gray-500"
+              [class.border-red-500]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+            />
+            <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" 
+                 class="mt-1 text-sm text-red-600">
+              Ce champ est requis
+            </div>
+          </div>
+          
+          <!-- Password field -->
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+              Mot de passe
+            </label>
+            <div class="relative">
+              <input
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Mot de passe"
+                class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors bg-white text-gray-900 placeholder-gray-500"
+                [class.border-red-500]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+              />
+              <button
+                type="button"
+                (click)="togglePasswordVisibility()"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+              >
+                <svg *ngIf="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+                <svg *ngIf="showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                </svg>
+              </button>
+            </div>
+            <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" 
+                 class="mt-1 text-sm text-red-600">
+              Ce champ est requis
+            </div>
+          </div>
+          
+          <!-- Remember me and forgot password -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <input
+                id="remember"
+                type="checkbox"
+                formControlName="rememberMe"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+              />
+              <label for="remember" class="ml-2 text-sm text-gray-700">
+                Se souvenir de moi
+              </label>
+            </div>
+            
+            <a routerLink="/forgot-password" class="text-sm text-[#00B894] hover:text-[#00B894] font-medium">
+                Mot de passe oublié ?
+              </a>
+              
+          </div>
+          
+          <!-- Submit button -->
+          <button
+            type="submit"
+            [disabled]="loginForm.invalid || isLoading"
+            class="w-full bg-[#00B894] hover:bg-[#00B894] disabled:bg-gray-400 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+          >
+            <span *ngIf="!isLoading">Se connecter</span>
+            <span *ngIf="isLoading" class="flex items-center justify-center">
+              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Connexion...
+            </span>
+          </button>
+        </form>
+        
+        <!-- Divider -->
+        <div class="mt-8 mb-6">
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-gray-50 text-gray-500">Ou</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Social login buttons -->
+        <div class="grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            (click)="loginWithGoogle()"
+            class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+          >
+            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            <span class="text-sm font-medium text-gray-700">Google</span>
+          </button>
+          
+          <button
+            type="button"
+            (click)="loginWithApple()"
+            class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
+          >
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10.394 3.859c.39-.434.677-.899.853-1.383a4.035 4.035 0 0 1-.853 1.383z"/>
+              <path fill-rule="evenodd" d="M14.217 14.204c-.48.484-.948 1.021-1.287 1.668-.338.647-.554 1.336-.554 2.03 0 .694.216 1.383.554 2.03.339.647.807 1.184 1.287 1.668.48-.484.948-1.021 1.287-1.668.338-.647.554-1.336.554-2.03 0-.694-.216-1.383-.554-2.03-.339-.647-.807-1.184-1.287-1.668zm-8.434 0c.48-.484.948-1.021 1.287-1.668C7.408 11.889 7.624 11.2 7.624 10.506c0-.694-.216-1.383-.554-2.03-.339-.647-.807-1.184-1.287-1.668-.48.484-.948 1.021-1.287 1.668-.338.647-.554 1.336-.554 2.03 0 .694.216 1.383.554 2.03.339.647.807 1.184 1.287 1.668z"/>
+            </svg>
+            <span class="text-sm font-medium text-gray-700">Apple</span>
+          </button>
+        </div>
+        
+        <!-- Sign up link -->
+        <div class="mt-8 text-center">
+          <p class="text-sm text-gray-600">
+            Vous n'avez pas de compte ? 
+            <a href="#" class="font-medium text-[#2C7BE5] hover:text-[]">
+              S'inscrire
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
