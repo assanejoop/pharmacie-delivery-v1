@@ -1,0 +1,138 @@
+<!-- Sidebar Component -->
+<div class="w-[270px] h-screen bg-white  flex flex-col  container-sidebar ">
+  <!-- Header with Logo and Title -->
+  <div class="p-5 rounded-lg bg-white flex items-center justify-center  w-full  gap-[12px] ">
+    <div class="flex items-center  flex-col justify-center">
+      <img src="assets/images/logo.png" class="h-14 object-contain" alt="Logo pharmacie " />
+      <div class="flex flex-col items-center entete">
+       
+        <h1 class="font-semibold text-xl leading-[100%] tracking-normal text-center font-work text-[#2C7BE5] mt-3 m-2 whitespace-nowrap">
+          PHARMACIE DELIVERY
+        </h1>
+          <p class="text-sm font-work text-[#343A40] font-medium text-[12px] leading-[100%] tracking-normal text-center " >Votre santé, notre priorité</p>
+    
+      </div>
+    </div>
+  </div>
+  <!-- Navigation Menu -->
+  <div class="flex-1 px-4 py-6">
+    <nav class="space-y-2">
+      <!-- Dashboard -->
+      <div 
+      class="flex items-center w-[252px] h-[54px] px-[15px] gap-[12px] cursor-pointer transition duration-200"
+      [ngClass]="{
+        'border-l-[3px] border-[#00B894] rounded-l-[12px] bg-[#F4F6F9] text-[#00B894]': activeItem === 'dashboard',
+        'hover:bg-[#F4F6F9] hover:border-l-[3px] hover:border-[#00B894] hover:rounded-l-[12px]': activeItem !== 'dashboard'
+      }"
+      (click)="setActiveItem('dashboard')"
+    >
+      <div class="flex items-center justify-center w-8 h-8 mr-1">
+        <div class="w-5 h-5 transition-colors duration-200"
+             [ngStyle]="{
+               'background-color': activeItem === 'dashboard' ? '#00B894' : '#6B7280',
+               '-webkit-mask': 'url(assets/icones/home.svg) center/contain no-repeat',
+               'mask': 'url(assets/icones/home.svg) center/contain no-repeat'
+             }">
+        </div>
+      </div>
+      <span class="font-medium text-[14px] leading-[14px] tracking-[0] font-inter">Tableau de bord</span>
+    </div>
+    
+    
+    
+
+      <!-- Commandes reçues -->
+      <div 
+        class="flex items-center h-[54px] w-[252px] px-[15px] cursor-pointer transition duration-200
+        hover:bg-[#F4F6F9] hover:border-l-[4px]  hover:rounded-l-[12px]  hover:border-[#00B894]"
+        [ngClass]="{
+          'border-l-[3px] border-[#00B894] rounded-l-[12px] bg-[#F4F6F9] text-[#00B894]': activeItem === 'commande',
+          'hover:bg-[#F4F6F9] hover:border-l-[3px] hover:border-[#00B894] hover:rounded-l-[12px]': activeItem !== 'commande'
+        }"
+        (click)="setActiveItem('commande')"
+      >
+        <div class="flex items-center justify-center w-8 h-8 mr-2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
+            <path d="M1.75 1.002a.75.75 0 1 0 0 1.5h1.835l1.24 5.113A3.752 3.752 0 0 0 2 11.25c0 .414.336.75.75.75h10.5a.75.75 0 0 0 0-1.5H3.628A2.25 2.25 0 0 1 5.75 9h6.5a.75.75 0 0 0 .73-.578l.846-3.595a.75.75 0 0 0-.578-.906 44.118 44.118 0 0 0-7.996-.91l-.348-1.436a.75.75 0 0 0-.73-.573H1.75ZM5 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM13 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" />
+          </svg>
+          
+        </div>
+        <span class="font-medium text-[14px] leading-[14px] tracking-[0] font-inter">Commandes reçues</span>
+      </div>
+
+      <!-- Gestion stock -->
+      <div 
+        class="flex items-center h-[54px] w-[252px] px-[15px] cursor-pointer transition duration-200
+        hover:bg-[#F4F6F9] hover:border-l-[4px] hover:border-[#00B894] hover:rounded-l-[12px]"
+        [ngClass]="{
+          'border-l-[3px] border-[#00B894] rounded-l-[12px] bg-[#F4F6F9] text-[#00B894]': activeItem === 'gestion-stock',
+          'hover:bg-[#F4F6F9] hover:border-l-[3px] hover:border-[#00B894] hover:rounded-l-[12px]': activeItem !== 'gestion-stock'
+        }"
+        (click)="setActiveItem('gestion-stock')"
+      >
+        <div class="flex items-center justify-center w-8 h-8 mr-2">
+          <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          [ngClass]="{ 'text-[#00B894]': activeItem === 'gestion-stock', 'text-gray-700': activeItem !== 'gestion-stock' }">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+          </svg>
+        </div>
+        <span class="font-medium text-[14px] leading-[14px] tracking-[0] font-inter">Gestion stock</span>
+      </div>
+
+      <!-- Livraisons -->
+      <div 
+        class="flex items-center h-[54px] w-[252px] px-[15px] cursor-pointer transition duration-200
+        hover:bg-[#F4F6F9] hover:border-l-[4px] hover:border-[#00B894] hover:rounded-l-[12px]"
+       
+     
+        [class.text-[#00B894]]="activeItem === 'livraison'"
+        (click)="setActiveItem('livraison')"
+      >
+        <div class="flex items-center justify-center w-8 h-8 mr-2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+            <path d="M2.908 2.067A.978.978 0 0 0 2 3.05V8h6V3.05a.978.978 0 0 0-.908-.983 32.481 32.481 0 0 0-4.184 0ZM12.919 4.722A.98.98 0 0 0 11.968 4H10a1 1 0 0 0-1 1v6.268A2 2 0 0 1 12 13h1a.977.977 0 0 0 .985-1 31.99 31.99 0 0 0-1.066-7.278Z" />
+            <path d="M11 13a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM2 12V9h6v3a1 1 0 0 1-1 1 2 2 0 1 0-4 0 1 1 0 0 1-1-1Z" />
+            <path d="M6 13a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" />
+          </svg>
+          
+        </div>
+        <span class="font-medium text-[14px] leading-[14px] tracking-[0] font-inter">Livraisons</span>
+      </div>
+
+      <!-- Mon compte -->
+      <div 
+        class="flex items-center h-[54px] w-[252px] px-[15px] cursor-pointer transition duration-200
+        hover:bg-[#F4F6F9] hover:border-l-[4px] hover:border-[#00B894] hover:rounded-l-[12px]"
+        [ngClass]="{
+          'border-l-[3px] border-[#00B894] rounded-l-[12px] bg-[#F4F6F9] text-[#00B894]': activeItem === 'comptes',
+          'hover:bg-[#F4F6F9] hover:border-l-[3px] hover:border-[#00B894] hover:rounded-l-[12px]': activeItem !== 'comptes'
+        }"
+        (click)="setActiveItem('comptes')"
+      >
+        <div class="flex items-center justify-center w-8 h-8 mr-2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+            <path fill-rule="evenodd" d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-5-2a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM8 9c-1.825 0-3.422.977-4.295 2.437A5.49 5.49 0 0 0 8 13.5a5.49 5.49 0 0 0 4.294-2.063A4.997 4.997 0 0 0 8 9Z" clip-rule="evenodd" />
+          </svg>
+          
+        </div>
+        <span class="font-medium text-[14px] leading-[14px] tracking-[0] font-inter">Mon compte</span>
+      </div>
+      <div class="mt-10 border-gray-200">
+        <button 
+          class="flex items-center px-4 py-3 w-full rounded-lg cursor-pointer transition-colors duration-200 hover:bg-red-50 text-gray-700 "
+          (click)="logout()"
+        >
+          <div class="flex items-center justify-center w-8 h-8 mr-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+          </div>
+          <span class="text-sm  font-medium font-inter ">Se déconnecter</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Logout Button -->
+ 
+</div>

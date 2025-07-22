@@ -1,0 +1,167 @@
+/* Custom styles for order management component */
+
+/* Hover effects for table rows */
+tr:hover {
+    background-color: rgb(249 250 251);
+  }
+  
+  /* Selected row styling */
+  .bg-blue-50 {
+    background-color: rgb(239 246 255) !important;
+  }
+  
+  /* Status badge animations */
+  .status-badge {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .status-badge:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Custom scrollbar for table */
+  .overflow-x-auto::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .overflow-x-auto::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  
+  .overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+  
+  .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+  
+  /* Button hover effects */
+  button:hover:not(:disabled) {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Search input focus enhancement */
+  input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  /* Loading state styles (for future use) */
+  .loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .table-container {
+      font-size: 0.875rem;
+    }
+    
+    .px-6 {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    .py-4 {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+  }
+  
+  /* Print styles */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    
+    .bg-gray-50 {
+      background-color: white !important;
+    }
+    
+    .shadow-sm {
+      box-shadow: none !important;
+    }
+  }
+  
+  /* Focus states for accessibility */
+  button:focus,
+  input:focus,
+  select:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+  
+  /* Animation for filter toggle */
+  .filter-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  
+  .filter-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease-out;
+  }
+  
+  /* Custom badge styles */
+  .badge-pending {
+    background-color: #fef3c7;
+    color: #d97706;
+  }
+  
+  .badge-validated {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+  .table-commandes {
+    
+      width: 558px;
+      height: 339px;
+      transform: rotate(0deg);
+      opacity: 1;
+  
+    
+  }
+  
+  /* Table header sticky positioning */
+  .table-header-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: rgb(249 250 251);
+  }
+  
+  /* Empty state styling */
+  .empty-state {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .content-commande{
+  width: 528px;
+  height: 179;
+  opacity: 1;
+  border-radius: 8px;
+  background-color: #F9FAFB;
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+  margin-bottom: 32px;
+  
+
+  }
+
+  .title-cmde{
+    font-family: Inter;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-transform: capitalize;
+    
+  }

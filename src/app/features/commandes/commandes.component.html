@@ -1,0 +1,364 @@
+<div class="min-h-screen  bg-[#F4F6F9]  p-6">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Gestion des commandes</h1>
+      <p class="text-gray-600">Consultez et gérez les commandes des patients</p>
+    </div>
+  
+    <!-- Main Content - Two columns layout -->
+    <div class=" bg-[#F4F6F9]  rounded-lg flex items-start">
+      <!-- Left Section - Orders Table -->
+      <div class="w-1/2 border-r border-gray-200 max-h-[calc(100vh-250px)] overflow-y-auto bg-white ">
+        <!-- Table Header -->
+        <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+          <h2 class="text-xl font-semibold text-gray-900">Liste des commandes reçues</h2>
+          <div class="flex items-center space-x-4">
+            <!-- Search -->
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+              </div>
+              <input
+                type="text"
+                [(ngModel)]="searchTerm"
+                (input)="onSearch()"
+                placeholder="Rechercher un ici"
+                class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm w-48"
+              />
+            </div>
+            
+            <!-- Filter Button -->
+            <button
+              (click)="toggleFilter()"
+              class="flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium text-gray-700"
+            >
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707v4.172a1 1 0 01-.293.707L10 21.414a1 1 0 01-1.414 0L7.293 20.121A1 1 0 017 19.414V15.414a1 1 0 00-.293-.707L.293 8.293A1 1 0 010 7.586V5a1 1 0 011-1h2z"/>
+              </svg>
+              Filtrer
+            </button>
+          </div>
+        </div>
+  
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full ">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Référence
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Patient
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Statut
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr 
+                *ngFor="let order of paginatedOrders"
+                (click)="selectOrder(order)"
+                class="hover:bg-gray-50 cursor-pointer transition-colors duration-150"
+                [class.bg-blue-50]="selectedOrder?.reference === order.reference"
+              >
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="text-sm font-medium text-blue-600 hover:text-blue-800">
+                    {{ order.reference }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="text-sm text-gray-900">{{ order.patient }}</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="text-sm text-gray-900">{{ order.date }}</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span 
+                    class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                    [ngClass]="{
+                      'bg-orange-100 text-orange-800': order.status === 'En attente',
+                      'bg-green-100 text-green-800': order.status === 'Validée'
+                    }"
+                  >
+                    {{ order.status }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        <!-- Pagination -->
+        <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <span class="text-sm text-gray-700">éléments par page:</span>
+            <select 
+              [(ngModel)]="itemsPerPage"
+              (change)="onItemsPerPageChange()"
+              class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          
+          <div class="flex items-center space-x-4">
+            <span class="text-sm text-gray-700">
+              {{ getStartIndex() }} - {{ getEndIndex() }} sur {{ totalItems }}
+            </span>
+            
+            <div class="flex space-x-1">
+              <button
+                (click)="previousPage()"
+                [disabled]="currentPage === 1"
+                class="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+              </button>
+              
+              <button
+                (click)="nextPage()"
+                [disabled]="currentPage >= getTotalPages()"
+                class="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Right Section - Order Details -->
+      <div class="w-1/2 flex flex-col ">
+        <!-- Order Details when selected -->
+        <div *ngIf="selectedOrder" class="flex-1  px-6 py-1">
+         <!-- Template HTML pour la commande CMD-4531 -->
+                <!-- Template HTML pour la commande CMD-4531 -->
+      <div class="bg-white rounded-lg p-6 max-w-4xl mx-auto">
+        <!-- En-tête avec titre et boutons -->
+        <div class="flex justify-between items-center mb-8">
+          <h1 class="text-2xl font-bold text-[#343A40] title-cmde">Commande CMD-4531</h1>
+          <div class="flex space-x-3">
+            <button 
+              class="bg-[#00B894] hover:bg-[#00B894] text-white px-6 py-2 rounded-lg flex items-center space-x-2 transition-colors"
+              (click)="accepterCommande()">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm ">Accepter</span>
+            </button>
+            <button 
+              class="bg-[#FF6B6B] hover:bg-[#FF6B6B] text-white px-6 py-2 rounded-lg flex items-center space-x-2 transition-colors"
+              (click)="refuserCommande()">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+              <span class="text-sm">Refuser</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Informations patient et médecin -->
+        <div class="grid grid-cols-1 md:grid-cols-2  content-commande">
+          <!-- Informations patient -->
+          <div>
+            <h3 class="text-gray-600 text-sm font-medium mb-2">Patient</h3>
+            <p class="text-lg font-semibold text-gray-800 mb-4">{{ commande.patient.nom }}</p>
+            
+            <h3 class="text-gray-600 text-sm font-medium mb-2">Date</h3>
+            <p class="text-lg font-semibold text-gray-800">{{ commande.date }}</p>
+          </div>
+
+          <!-- Informations médecin -->
+          <div>
+            <h3 class="text-gray-600 text-sm font-medium mb-2">Médecin</h3>
+            <p class="text-lg font-semibold text-gray-800 mb-4">{{ commande.medecin.nom }}</p>
+            
+            <h3 class="text-gray-600 text-sm font-medium mb-2">Téléphone</h3>
+            <p class="text-lg font-semibold text-gray-800">{{ commande.medecin.telephone }}</p>
+          </div>
+        </div>
+
+  <!-- Image de l'ordonnance -->
+  <div class="mb-8">
+    <h3 class=" font-bold  mb-4 title-cmde text-[#343A40]">Image de l'ordonnance</h3>
+    <div class="">
+      <div class="flex justify-start">
+        <img 
+          [src]="commande.ordonnance.imageUrl" 
+          [alt]="'Ordonnance ' + commande.numero"
+          class="max-w-full h-auto"
+          style="max-height: 400px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Médicaments associés -->
+  <div>
+    <h3 class=" mb-6 title-cmde text-[#343A40]">Médicaments associés</h3>
+    
+    <!-- Boutons de saisie -->
+    <div class="flex space-x-4 mb-6">
+      <button 
+        [class]="saisieMode === 'medicament' ? 'bg-white  text-gray-700' : 'bg-[#00B89414]  text-gray-700'"
+        class="px-6 py-3 border-2 rounded-lg font-medium transition-colors hover:bg-[#00B89414]"
+        (click)="setSaisieMode('medicament')">
+        Saisie par médicament
+      </button>
+      <button 
+        [class]="saisieMode === 'total' ? 'bg-green-100 border-[#00B894] text-green-700' : 'bg-white border-gray-300 text-gray-700'"
+        class="px-6 py-3 border-2 rounded-lg font-medium transition-colors hover:bg-[#00B89414]"
+        (click)="setSaisieMode('total')">
+        Saisie montant total
+      </button>
+    </div>
+
+    <!-- Tableau des médicaments - Affiché uniquement en mode médicament -->
+    <div *ngIf="saisieMode === 'medicament'" class="bg-white rounded-lg border border-gray-200 overflow-auto">
+      <!-- En-tête du tableau -->
+      <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+        <div class="grid grid-cols-12 gap-4 text-sm font-medium text-gray-700">
+          <div class="col-span-3">Médicament</div>
+          <div class="col-span-4">Posologie</div>
+          <div class="col-span-2 text-center">Quantité</div>
+          <div class="col-span-2 text-center">P U</div>
+          <div class="col-span-1"></div>
+        </div>
+      </div>
+
+      <!-- Lignes des médicaments -->
+      <div class="divide-y divide-gray-200">
+        <div *ngFor="let medicament of commande.medicaments; let i = index" 
+             class="px-6 py-4 hover:bg-gray-50 transition-colors">
+          <div class="grid grid-cols-12 gap-4 items-center">
+            <!-- Nom du médicament -->
+            <div class="col-span-3">
+              <input 
+                type="text" 
+                [value]="medicament.nom"
+                (input)="updateMedicament(i, 'nom', $event)"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Nom du médicament">
+            </div>
+
+            <!-- Posologie -->
+            <div class="col-span-4">
+              <input 
+                type="text" 
+                [value]="medicament.posologie"
+                (input)="updateMedicament(i, 'posologie', $event)"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Posologie">
+            </div>
+
+            <!-- Quantité -->
+            <div class="col-span-2">
+              <input 
+                type="number" 
+                [value]="medicament.quantite"
+                (input)="updateMedicament(i, 'quantite', $event)"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Qté">
+            </div>
+
+            <!-- Prix unitaire -->
+            <div class="col-span-2">
+              <input 
+                type="number" 
+                [value]="medicament.prixUnitaire"
+                (input)="updateMedicament(i, 'prixUnitaire', $event)"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Prix">
+            </div>
+
+            <!-- Bouton supprimer -->
+            <div class="col-span-1 text-center">
+              <button 
+                (click)="supprimerMedicament(i)"
+                class="text-[#FF6B6B] hover:text-red-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton d'ajout - Affiché uniquement en mode médicament -->
+    <div *ngIf="saisieMode === 'medicament'" class="mt-4 flex justify-start">
+      <button 
+        (click)="ajouterMedicament()"
+        class="bg-[#2C7BE514] hover:bg-[#2C7BE514] text-[#2C7BE5] px-6 py-2 rounded-lg flex items-center space-x-2 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        <span>Ajouter un médicament</span>
+      </button>
+    </div>
+
+    <!-- Saisie montant total - Affiché uniquement en mode total -->
+    <div *ngIf="saisieMode === 'total'" class="space-y-6">
+      <div>
+        <label class="block text-lg font-medium text-gray-800 mb-3">
+          Montant global de l'ordonnance (FCFA)
+          <span class="text-[#FF6B6B] ml-1">*</span>
+        </label>
+        <div class="max-w-full">
+          <input 
+            type="number" 
+            [(ngModel)]="montantTotal"
+            class="w-full px-4 py-4 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Ex. 3 500">
+        </div>
+      </div>
+    </div>
+
+    <!-- Total -->
+    <div class="mt-6 flex justify-end">
+      <div class="bg-gray-100 px-6 py-4 rounded-lg">
+        <div class="text-lg font-bold text-gray-800">
+          Total:
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+  
+        <!-- Empty State when no order selected -->
+        <div 
+          *ngIf="!selectedOrder" 
+          class="flex-1 flex items-center justify-center p-6"
+        >
+          <div class="text-center">
+            <div class="text-gray-400 mb-4">
+              <svg class="mx-auto h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">
+              Sélectionnez une commande pour voir les détails
+            </h3>
+            <p class="text-sm text-gray-500">
+              Cliquez sur une ligne du tableau pour afficher les informations détaillées
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

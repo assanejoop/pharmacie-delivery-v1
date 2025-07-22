@@ -1,0 +1,45 @@
+
+.container-sidebar {
+width: 276px;
+
+/* angle: 0 deg; */
+opacity: 1;
+/* border-right-width: 1px; */
+padding-top: 30px;
+padding-bottom: 30px;
+padding-left: 24px;
+gap: 24px;
+
+}
+
+
+
+.entete{
+width: 252px;
+height: 55px;
+gap: 20px;
+opacity: 1;
+
+}
+
+
+.dashboardItem{
+    width: 252px;
+    height: 54px;
+    display: flex;
+    opacity: 1;
+    border-left-width: 4px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    padding: 15px;
+    background-color: #F4F6F9;
+    border-left-style: solid;
+    border-left-color: #000; /* ou une autre couleur */ 
+    border-left: 4px solid var(--vert-sante, #00B894);
+      
+}
+
+
+
+
+
