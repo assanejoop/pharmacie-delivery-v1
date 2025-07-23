@@ -7,8 +7,9 @@ module.exports = {
     extend: {
       fontFamily: {
         work: ['"Work Sans"', 'sans-serif'], // <- Ajout ici
-      },
-      inter: ['Inter', 'sans-serif'],
+       inter: ['Inter', 'sans-serif'],
+      'open-sans': ['"Open Sans"', 'sans-serif'],
+    },
     },
   },
   plugins: [],

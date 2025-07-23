@@ -1,1 +1,538 @@
-<p>register works!</p>
+<!-- register.component.html -->
+<div class="min-h-screen bg-[#F4F6F9] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="bg-white p-8 container-register">
+    
+    <!-- Logo -->
+    <div class="flex justify-center mb-8">
+      <div class="relative">
+      <img src="assets/images/logo.png" alt="" srcset="">
+      </div>
+    </div>
+
+    <!-- Titre principal -->
+    <div class="text-center mb-4">
+      <h1 class="text-[#2C7BE5] font-work font-semibold text-[18px] leading-[100%] tracking-[0] text-center">
+        PHARMACIE DELIVERY
+      </h1>
+    </div>
+
+    <!-- Titre créer un compte -->
+    <div class="text-center mb-4">
+      <h2 class="text-[32px] text-[#343A40] font-work font-semibold leading-[100%] tracking-[0] text-center">
+        Créer un compte
+      </h2>
+    </div>
+
+    <!-- Sous-titre -->
+    <div class="text-center mb-12">
+      <p class="text-[#4B5563] font-open-sans font-normal text-base leading-[100%] tracking-[0] text-center">
+        Inscrivez-vous pour accéder à la plateforme de livraison de médicaments
+      </p>
+    </div>
+
+    <!-- Étapes avec icônes et traits -->
+    <div class="flex items-center justify-between mb-12 register-steps mx-auto">
+      <!-- Étape 1 - Rôle -->
+      <div class="">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center mb-2"
+             [class]="currentStep >= 1 ? 'bg-[#CCFBF1]' : 'bg-gray-100'">
+          <!-- <svg class="w-5 h-5" [class]="currentStep >= 1 ? 'text-[#00B894]' : 'text-gray-400'" 
+               fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+          </svg>
+           -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" class="w-6 h-6" [class]="currentStep >= 1 ? 'text-[#00B894]' : 'text-gray-400'" fill="currentColor">
+            <path d="M470.5 463.6C451.4 416.9 405.5 384 352 384L288 384C234.5 384 188.6 416.9 169.5 463.6C133.9 426.3 112 375.7 
+            112 320C112 205.1 205.1 112 320 112C434.9 112 528 205.1 528 320C528 375.7 506.1 426.2 470.5 463.6zM430.4 496.3C398.4 516.4 
+            360.6 528 320 528C279.4 528 241.6 516.4 209.5 496.3C216.8 459.6 249.2 432 288 432L352 432C390.8 432 423.2 459.6 430.5 496.3zM320 
+            576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM320 304C297.9 304 280 286.1 280 264C280 241.9 297.9 224 320 224C342.1 224 360 241.9 360 264C360 286.1 342.1 304 320 304zM232 264C232 312.6 271.4 352 320 352C368.6 352 408 312.6 408 264C408 215.4 368.6 176 320 176C271.4 176 232 215.4 232 264z"/></svg>
+        </div>
+        <span class="text-xs font-medium" [class]="currentStep >= 1 ? 'text-[#00B894]' : 'text-[#6B7280]'">Rôle</span>
+      </div>
+
+      <!-- Trait 1 -->
+      <div class="flex-1 h-px mx-4 trait" [class]="currentStep >= 2 ? 'bg-[#00B894]' : 'bg-[#F4F6F9]'"></div>
+
+      <!-- Étape 2 - Informations -->
+      <div>
+        <div class="w-10 h-10 rounded-full flex items-center justify-center mb-2"
+             [class]="currentStep >= 2 ? 'bg-green-100' : 'bg-gray-100'">
+          <svg class="w-5 h-5" [class]="currentStep >= 2 ? 'text-[#00B894]' : 'text-gray-400'" 
+               fill="currentColor" viewBox="0 0 20 20">
+            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+          </svg>
+        </div>
+        <span class="text-xs font-medium" [class]="currentStep >= 2 ? 'text-[#00B894]' : 'text-[#6B7280]'">Informations</span>
+      </div>
+
+      <!-- Trait 2 -->
+      <div class="flex-1 h-px mx-4 trait" [class]="currentStep >= 3 ? 'bg-[#00B894]' : 'bg-[#F4F6F9]'"></div>
+
+      <!-- Étape 3 - Documents -->
+      <div>
+        <div class="w-10 h-10 rounded-full flex items-center justify-center mb-2"
+             [class]="currentStep >= 3 ? 'bg-green-100' : 'bg-gray-100'">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" class="h-5 w-5"
+               [class]="currentStep >= 3 ? 'text-[#00B894]' : 'text-gray-400'">
+              <path d="M342.6 73.4C330.1 60.9 309.8 60.9 297.3 73.4L169.3 201.4C156.8 213.9 156.8 234.2 
+              169.3 246.7C181.8 259.2 202.1 259.2 214.6 246.7L288 173.3L288 384C288 401.7 302.3 416 320 416C337.7
+               416 352 401.7 352 384L352 173.3L425.4 246.7C437.9 259.2 458.2 259.2 470.7 246.7C483.2 234.2 483.2 213.9 470.7 201.4L342.7 73.4zM160 416C160 398.3 145.7 384 128 384C110.3 384 96 398.3 96 416L96 480C96 533 139 576 192 576L448 576C501 576 544 533 544 
+               480L544 416C544 398.3 529.7 384 512 384C494.3 384 480 398.3 480 416L480 480C480 497.7 465.7 512 448 512L192 512C174.3 512 160 497.7 160 480L160 416z"/>
+          </svg>
+        </div>
+        <span class="text-xs font-medium" [class]="currentStep >= 3 ? 'text-[#00B894]' : 'text-[#6B7280]'">Documents</span>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 1 - SÉLECTION DU RÔLE -->
+    <div *ngIf="currentStep === 1">
+      <!-- Titre choix du rôle -->
+      <div class="text-center mb-8">
+        <h3 class="text-xl font-bold text-gray-900">
+          Choisissez votre rôle professionnel
+        </h3>
+      </div>
+  
+      <!-- Cards des rôles -->
+      <div class=" mb-8 flex justify-between items-center gap-2">
+        
+        <!-- Card Pharmacien -->
+        <div 
+        class="rounded-lg p-4 cursor-pointer transition-all duration-300 hover:border-blue-500 hover:bg-blue-50 hover:shadow-lg card-register group relative overflow-hidden hover:w-[400px] hover:h-[202px] hover:pt-10 hover:gap-4 " 
+        [class.border-blue-500]="selectedRole === 'pharmacien'"
+        [class.bg-blue-50]="selectedRole === 'pharmacien'"
+        [class.border-gray-200]="selectedRole !== 'pharmacien'"
+        (click)="selectRole('pharmacien')">
+         
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-8 h-8 bg-gray-100 rounded flex items-center justify-center group-hover:bg-blue-500 transition-colors duration-200 hover:list-image-none" >
+              <img src="assets/icones/pharmaicon.png" alt="pharmacicon" srcset="">
+            </div>
+          </div>
+          <div class="flex-1">
+            <h4 class="text-lg font-semibold text-gray-900 mb-1">Pharmacien</h4>
+            <p class="text-sm text-gray-600">
+              Gérez votre pharmacie et les livraisons de médicaments
+            </p>
+          </div>
+        </div>
+      
+        <!-- Bouton Sélectionner qui apparaît au survol -->
+        <div class="absolute bottom-4 left-4 right-4 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
+          <button class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
+            <span  (click)="nextStep()">Sélectionner</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+        <!-- Card Médecin -->
+        <div 
+          class="rounded-lg p-4 cursor-pointer transition-all duration-300 hover:border-blue-500 hover:bg-blue-50 hover:shadow-lg card-register group relative overflow-hidden hover:w-[400px] hover:h-[202px] hover:pt-10 hover:gap-4"
+          [class.border-blue-500]="selectedRole === 'medecin'"
+          [class.bg-blue-50]="selectedRole === 'medecin'"
+          [class.border-gray-200]="selectedRole !== 'medecin'"
+          (click)="selectRole('medecin')">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" class="w-6 h-6 text-gray-600" fill="currentColor">
+                  <path d="M320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312C386.3 312 440 258.3 440 192C440 125.7
+                   386.3 72 320 72zM380 384.8C374.6 384.3 369 384 363.4 384L276.5 384C270.9 384 265.4 384.3 259.9 384.8L259.9 452.3C276.4 459.9 
+                   287.9 476.6 287.9 495.9C287.9 522.4 266.4 543.9 239.9 543.9C213.4 543.9 191.9 522.4 191.9 495.9C191.9 476.5 203.4 459.8 219.9 
+                   452.3L219.9 393.9C157 417 112 477.6 112 548.6C112 563.7 124.3 576 139.4 576L500.5 576C515.6 576 527.9 563.7 527.9 548.6C527.9 477.6 482.9 417.1 419.9 394L419.9 431.4C443.2 439.6 459.9 461.9 459.9 488L459.9 520C459.9 531 450.9 540 439.9 540C428.9 540 419.9 531 419.9 520L419.9 488C419.9 477 410.9 468 399.9 468C388.9 468 379.9 477 379.9 488L379.9 520C379.9 531 370.9 540 359.9 540C348.9 540 339.9 531 339.9 520L339.9 488C339.9 461.9 356.6 439.7 379.9 431.4L379.9 384.8z"/></svg>
+              </div>
+            </div>
+            <div class="flex-1">
+              <h4 class="text-lg font-semibold text-gray-900 mb-1">Médecin</h4>
+              <p class="text-sm text-gray-600">
+                Prescrivez et suivez les traitements de vos patients
+              </p>
+            </div>
+          </div>
+          <div class="absolute bottom-4 left-4 right-4 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
+            <button class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
+              <span  (click)="nextStep()">Sélectionner</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+  
+        <!-- Card Livreur -->
+        <div 
+          class="ounded-lg p-4 cursor-pointer transition-all duration-300 hover:border-blue-500 hover:bg-blue-50 hover:shadow-lg card-register group relative overflow-hidden hover:w-[400px] hover:h-[202px] hover:pt-10 hover:gap-4" 
+          [class.border-blue-500]="selectedRole === 'livreur'"
+          [class.bg-blue-50]="selectedRole === 'livreur'"
+          [class.border-gray-200]="selectedRole !== 'livreur'"
+          (click)="selectRole('livreur')">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
+               <img src="assets/icones/Icon.png" alt="" srcset="">
+              </div>
+            </div>
+            <div class="flex-1">
+              <h4 class="text-lg font-semibold text-gray-900 mb-1">Livreur</h4>
+              <p class="text-sm text-gray-600">
+                Livrez les médicaments aux patients en toute sécurité
+              </p>
+            </div>
+          </div>
+          <div class="absolute bottom-4 left-4 right-4 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
+            <button class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
+              <span  (click)="nextStep()">Sélectionner</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+       
+        
+      </div>
+
+      <!-- Bouton Continuer pour étape 1 -->
+      <div class="flex justify-end mb-8">
+        <button 
+          class="bg-[#00B894] text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors duration-200 flex items-center space-x-2"
+          [disabled]="!selectedRole"
+          (click)="nextStep()"
+          [class.opacity-50]="!selectedRole"
+          [class.cursor-not-allowed]="!selectedRole">
+          <span>Continuer</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 2 - INFORMATIONS DU PHARMACIEN -->
+    <div *ngIf="currentStep === 2">
+      <!-- Titre informations -->
+      <div class="text-center mb-8">
+        <h3 class="text-xl font-bold text-gray-900">
+          Informations du pharmacien
+        </h3>
+      </div>
+
+      <!-- Formulaire d'informations -->
+      <div class="bg-gray-50 rounded-lg p-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Nom d'utilisateur -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700 flex items-center">
+              Nom d'utilisateur 
+              <span class="text-red-500 ml-1">*</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <input 
+                type="text" 
+                class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="ex. Fatou Ndiaye"
+                [(ngModel)]="userInfo.username">
+            </div>
+          </div>
+
+          <!-- Numéro de téléphone -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700 flex items-center">
+              Numéro de téléphone 
+              <span class="text-red-500 ml-1">*</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                </svg>
+              </div>
+              <input 
+                type="tel" 
+                class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="ex. 77 000 00 00"
+                [(ngModel)]="userInfo.phone">
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">
+              Email 
+              <span class="text-gray-500">(facultatif)</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                </svg>
+              </div>
+              <input 
+                type="email" 
+                class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="ex. prenom.nom@gmail.com"
+                [(ngModel)]="userInfo.email">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Boutons de navigation -->
+      <div class="flex justify-between mb-8">
+        <button 
+          class="bg-[#D4EDDA] text-gray-700 px-6 py-2 rounded-md hover:bg-gray-200 transition-colors duration-200 flex items-center space-x-2"
+          (click)="previousStep()">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          <span class="text-[#00B894]">Retour</span>
+        </button>
+        
+        <button 
+          class="bg-[#00B894] text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors duration-200 flex items-center space-x-2"
+          [disabled]="!userInfo.username || !userInfo.phone"
+          (click)="nextStep()"
+          [class.opacity-50]="!userInfo.username || !userInfo.phone"
+          [class.cursor-not-allowed]="!userInfo.username || !userInfo.phone">
+          <span>Continuer</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 3 - DOCUMENTS DE VALIDATION -->
+    <div *ngIf="currentStep === 3">
+      <!-- Titre documents -->
+      <div class="text-center mb-8">
+        <h3 class="text-xl font-bold text-gray-900">
+          Documents de validation - Pharmacien
+        </h3>
+      </div>
+
+      <!-- Documents requis -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        
+        <!-- Pièce d'identité -->
+        <div class="border-2 border-gray-200 rounded-lg p-6">
+          <div class="flex items-start space-x-3 mb-4">
+            <div class="w-8 h-8 bg-green-100 rounded flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-lg font-semibold text-gray-900">Pièce d'identité</h4>
+              <p class="text-sm text-gray-600">Carte d'identité, passeport ou permis de conduire</p>
+            </div>
+          </div>
+          
+          <!-- Zone de téléchargement -->
+          <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-green-400 transition-colors duration-200 cursor-pointer"
+               (click)="triggerFileInput('identity')"
+               (dragover)="onDragOver($event)"
+               (drop)="onFileDrop($event, 'identity')">
+            <div class="space-y-3">
+              <svg class="mx-auto h-8 w-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+              </svg>
+              <div>
+                <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors duration-200">
+                  Choisir un fichier
+                </button>
+                <span class="text-gray-500 ml-2">ou glisser-déposer</span>
+              </div>
+              <p class="text-xs text-gray-500">PNG, JPG, PDF jusqu'à 10MB</p>
+            </div>
+          </div>
+          
+          <!-- Fichier sélectionné -->
+          <div *ngIf="documents.identity" class="mt-3 flex items-center space-x-2 text-sm text-green-600">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>{{ documents.identity.name }}</span>
+          </div>
+          
+          <input type="file" #identityInput (change)="onFileSelected($event, 'identity')" 
+                 accept=".png,.jpg,.jpeg,.pdf" class="hidden">
+        </div>
+
+        <!-- Autorisation d'exercer -->
+        <div class="border-2 border-gray-200 rounded-lg p-6">
+          <div class="flex items-start space-x-3 mb-4">
+            <div class="w-8 h-8 bg-green-100 rounded flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-lg font-semibold text-gray-900">Autorisation d'exercer</h4>
+              <p class="text-sm text-gray-600">Certificat d'inscription à l'ordre professionnel</p>
+            </div>
+          </div>
+          
+          <!-- Zone de téléchargement -->
+          <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-green-400 transition-colors duration-200 cursor-pointer"
+               (click)="triggerFileInput('authorization')"
+               (dragover)="onDragOver($event)"
+               (drop)="onFileDrop($event, 'authorization')">
+            <div class="space-y-3">
+              <svg class="mx-auto h-8 w-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+              </svg>
+              <div>
+                <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors duration-200">
+                  Choisir un fichier
+                </button>
+                <span class="text-gray-500 ml-2">ou glisser-déposer</span>
+              </div>
+              <p class="text-xs text-gray-500">PNG, JPG, PDF jusqu'à 10MB</p>
+            </div>
+          </div>
+          
+          <!-- Fichier sélectionné -->
+          <div *ngIf="documents.authorization" class="mt-3 flex items-center space-x-2 text-sm text-green-600">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>{{ documents.authorization.name }}</span>
+          </div>
+          
+          <input type="file" #authorizationInput (change)="onFileSelected($event, 'authorization')" 
+                 accept=".png,.jpg,.jpeg,.pdf" class="hidden">
+        </div>
+      </div>
+
+      <!-- Informations de la pharmacie -->
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+        <div class="flex items-start space-x-3 mb-4">
+          <div class="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold text-gray-900">Informations de la pharmacie</h4>
+            <p class="text-sm text-gray-600">Ces informations seront visibles par les utilisateurs et permettront d'identifier votre pharmacie sur la plateforme.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Nom de la pharmacie -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700 flex items-center">
+              Nom de la pharmacie 
+              <span class="text-red-500 ml-1">*</span>
+            </label>
+            <input 
+              type="text" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="ex. Pharmacie centrale"
+              [(ngModel)]="pharmacyInfo.name">
+          </div>
+
+          <!-- Adresse -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700 flex items-center">
+              Adresse 
+              <span class="text-red-500 ml-1">*</span>
+            </label>
+            <input 
+              type="text" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="ex. Rue 123, Principale Ville"
+              [(ngModel)]="pharmacyInfo.address">
+          </div>
+        </div>
+
+        <!-- Logo de la pharmacie -->
+        <div class="mt-6">
+          <label class="text-sm font-medium text-gray-700 block mb-2">
+            Logo de la pharmacie
+          </label>
+          <div class="flex items-center space-x-4">
+            <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+              <svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z"></path>
+              </svg>
+            </div>
+            <button 
+              class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-50 transition-colors duration-200 flex items-center space-x-2"
+              (click)="triggerFileInput('logo')">
+              <span>Choisir un logo</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+              </svg>
+            </button>
+          </div>
+          <input type="file" #logoInput (change)="onFileSelected($event, 'logo')" 
+                 accept=".png,.jpg,.jpeg" class="hidden">
+        </div>
+      </div>
+
+      <!-- Message d'information -->
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-yellow-700">
+              <strong>Important</strong><br>
+              Vos documents seront examinés par notre équipe avant la validation de votre compte. Ce processus peut prendre jusqu'à 48 heures.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boutons de navigation -->
+      <div class="flex justify-between mb-8">
+        <button 
+          class="bg-gray-100 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-200 transition-colors duration-200 flex items-center space-x-2"
+          (click)="previousStep()">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          <span>Retour</span>
+        </button>
+        
+        <button 
+          class="bg-[#00B894] text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors duration-200 flex items-center space-x-2"
+          [disabled]="!canCompleteRegistration()"
+          (click)="completeRegistration()"
+          [class.opacity-50]="!canCompleteRegistration()"
+          [class.cursor-not-allowed]="!canCompleteRegistration()">
+          <span>Terminer l'inscription</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Pied de page -->
+    <div class="text-center pt-6 mt-10">
+      <p class="text-sm text-gray-600">
+        Vous avez déjà un compte? 
+        <a href="#" class="text-blue-500 hover:text-blue-600 font-medium">Se connecter</a>
+      </p>
+    </div>
+
+  </div>
+</div>
