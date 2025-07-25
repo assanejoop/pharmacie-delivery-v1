@@ -2,11 +2,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router,RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,RouterLink],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -38,7 +39,9 @@ export class RegisterComponent {
     address: ''
   };
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   // Sélectionner un rôle
   selectRole(role: string): void {

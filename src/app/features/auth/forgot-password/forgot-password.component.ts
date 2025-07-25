@@ -1,12 +1,12 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router ,RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,RouterLink],
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.css']
 })
@@ -25,8 +25,25 @@ isVerifying = false;
 isResending = false;
 verificationError = '';
 
-  constructor(private formBuilder: FormBuilder ,
-       private router: Router
+codeSent = false; // Pour contrôler l'affichage des étapes
+maskedContact = ''; // Pour afficher l'email/téléphone masqué
+verificationForm!: FormGroup; // Nouveau FormGroup pour la vérification
+resendCountdown = 0; // Compteur pour le renvoi de code
+  fb: any;
+  codeVerified = false; // Pour contrôler l'affichage de l'étape 3
+newPasswordForm!: FormGroup; // FormGroup pour le nouveau mot de passe
+showNewPassword = false; // Visibilité du nouveau mot de passe
+showConfirmPassword = false; // Visibilité de la confirmation
+isResetting = false; // État de chargement pour la réinitialisation
+
+// Variables pour les critères de validation du mot de passe
+hasMinLength = false;
+hasUppercase = false;
+
+
+  constructor(
+    private formBuilder: FormBuilder ,
+    private router: Router
     ) {
    
     
@@ -37,6 +54,9 @@ verificationError = '';
   ngOnInit(): void {
     // Initialize with email method selected
     this.selectMethod('email');
+    this.verificationForm = this.fb.group({
+      code: ['', [Validators.required, Validators.minLength(6)]]
+    });
   }
 
   /**
@@ -79,30 +99,106 @@ verificationError = '';
   /**
    * Handles form submission
    */
-  onSubmit(): void {
-    if (this.isFormValid()) {
-      this.isLoading = true;
+
+  // Méthode appelée après l'envoi du code
+onSubmit() {
+  if (this.resetForm.valid) {
+    this.isLoading = true;
+    
+    // Simuler l'envoi du code
+    setTimeout(() => {
+      this.isLoading = false;
+      this.codeSent = true;
       
-      const resetData = {
-        method: this.selectedMethod,
-        value: this.selectedMethod === 'email' 
-          ? this.resetForm.get('email')?.value 
-          : this.resetForm.get('phone')?.value
-      };
-
-      console.log('Password reset request:', resetData);
-
-      // Simulate API call
-      setTimeout(() => {
-        this.isLoading = false;
-        this.sendVerificationCode(resetData);
-      }, 2000);
-    } else {
-      // Mark form as touched to show validation errors
-      this.markFormGroupTouched();
-    }
+      // Masquer l'email/téléphone
+      const contact = this.selectedMethod === 'email' 
+        ? this.resetForm.get('email')?.value 
+        : this.resetForm.get('phone')?.value;
+      
+      this.maskedContact = this.maskContact(contact);
+      this.startResendCountdown();
+    }, 1500);
   }
+}
 
+// Masquer partiellement l'email ou téléphone
+maskContact(contact: string): string {
+  if (this.selectedMethod === 'email') {
+    const [name, domain] = contact.split('@');
+    return `${name.charAt(0)}***@${domain}`;
+  } else {
+    return contact.replace(/\d(?=\d{4})/g, '*');
+  }
+}
+
+// Gérer la saisie des codes
+onCodeInput(event: any, index: number) {
+  const value = event.target.value;
+  if (value && /^\d$/.test(value)) {
+    this.codeDigits[index] = value;
+    
+    // Passer au champ suivant
+    if (index < 5) {
+      const nextInput = document.getElementById(`code-${index + 1}`);
+      nextInput?.focus();
+    }
+    
+    // Mettre à jour le FormControl
+    this.updateCodeFormControl();
+  } else {
+    event.target.value = '';
+    this.codeDigits[index] = '';
+  }
+}
+
+// Gérer les touches spéciales
+onKeyDown(event: any, index: number) {
+  if (event.key === 'Backspace' && !event.target.value && index > 0) {
+    const prevInput = document.getElementById(`code-${index - 1}`);
+    prevInput?.focus();
+  }
+}
+
+// Gérer le collage
+onPaste(event: any) {
+  event.preventDefault();
+  const pastedData = event.clipboardData.getData('text');
+  const cleanData = pastedData.replace(/\D/g, '').slice(0, 6);
+  
+  for (let i = 0; i < cleanData.length; i++) {
+    this.codeDigits[i] = cleanData[i];
+    const input = document.getElementById(`code-${i}`);
+    if (input) (input as HTMLInputElement).value = cleanData[i];
+  }
+  
+  this.updateCodeFormControl();
+}
+
+// Mettre à jour le FormControl du code
+updateCodeFormControl() {
+  const fullCode = this.codeDigits.join('');
+  this.verificationForm.get('code')?.setValue(fullCode);
+}
+
+// Démarrer le compte à rebours pour renvoyer le code
+startResendCountdown() {
+  this.resendCountdown = 120; // 2 minutes
+  const interval = setInterval(() => {
+    this.resendCountdown--;
+    if (this.resendCountdown <= 0) {
+      clearInterval(interval);
+    }
+  }, 1000);
+}
+
+// Renvoyer le code
+resendCode() {
+  // Logique pour renvoyer le code
+  this.startResendCountdown();
+}
+
+
+ 
   /**
    * Checks if the current form is valid based on selected method
    */
@@ -229,6 +325,62 @@ verificationError = '';
     
     return '';
   }
+  // Validation personnalisée pour la confirmation du mot de passe
+passwordMatchValidator(formGroup: AbstractControl): ValidationErrors | null {
+  const password = formGroup.get('newPassword')?.value;
+  const confirmPassword = formGroup.get('confirmPassword')?.value;
+  
+  if (password !== confirmPassword) {
+    formGroup.get('confirmPassword')?.setErrors({ mismatch: true });
+    return { mismatch: true };
+  } else {
+    formGroup.get('confirmPassword')?.setErrors(null);
+    return null;
+  }
+}
+
+// Méthode modifiée pour vérifier le code
+onVerifyCode() {
+  if (this.verificationForm.valid) {
+    this.isVerifying = false;
+    
+    // Simuler la vérification
+    setTimeout(() => {
+      this.isVerifying = false;
+      this.codeVerified = true; // Passer à l'étape 3
+    }, 1500);
+  }
+}
+
+// Basculer la visibilité du nouveau mot de passe
+toggleNewPasswordVisibility() {
+  this.showNewPassword = !this.showNewPassword;
+}
+
+// Basculer la visibilité de la confirmation
+toggleConfirmPasswordVisibility() {
+  this.showConfirmPassword = !this.showConfirmPassword;
+}
+
+// Vérifier les critères du mot de passe en temps réel
+checkPasswordCriteria(password: string) {
+  this.hasMinLength = password.length >= 8;
+  this.hasUppercase = /[A-Z]/.test(password);
+}
+
+// Réinitialiser le mot de passe
+onResetPassword() {
+  if (this.newPasswordForm.valid) {
+    this.isResetting = true;
+    
+    // Simuler la réinitialisation
+    setTimeout(() => {
+      this.isResetting = false;
+      // Rediriger vers la page de connexion avec un message de succès
+      // this.router.navigate(['/login']);
+    }, 2000);
+  }
+}
 
   /**
    * Format phone number input
